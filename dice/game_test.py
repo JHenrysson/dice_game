@@ -35,6 +35,25 @@ class TestGameClass(unittest.TestCase):
         exp = new_player
         self.assertEqual(res, exp)
 
+    def test_show_players(self):
+        """Test whether player names are shown correctly."""
+        the_game = game.Game()
+        the_game.players = []
+
+        player1 = player.Player('Paul')
+        the_game.add_player(player1)
+
+        res = the_game.show_players()
+        exp = "Player 1: Paul"
+        self.assertEqual(res, exp)
+
+        player2 = player.Player('Xuan')
+        the_game.add_player(player2)
+
+        res = the_game.show_players()
+        exp = "Player 1: Paul || Player 2: Xuan"
+        self.assertEqual(res, exp)
+
 
 if __name__ == '__main__':
     unittest.main()
