@@ -1,7 +1,11 @@
+import random
+
+
 class Die:
 
     def __init__(self):
+
         return
 
     def roll(self) -> int:
-        return 0
+        return random.randint(1,6)
