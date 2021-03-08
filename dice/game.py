@@ -9,6 +9,7 @@ import highscore
 class Game:
     """Game class."""
 
+    save_file = 'highscores.pickle'
     players = {}
     current_players = []
     player1_total = None
@@ -18,8 +19,8 @@ class Game:
     def __init__(self):
         """Init the object."""
         random.seed()
-        if os.path.exists('highscore.pickle'):
-            self.players = highscore.get_player_data('highscore.pickle')
+        if os.path.exists(self.save_file):
+            self.players = highscore.get_player_data(self.save_file)
 
     def start(self):
         """Set the starting values for players scores."""
@@ -31,8 +32,7 @@ class Game:
         if len(self.current_players) == 2:
             msg = "You already have 2 players. Use command remove_player first"
         elif name in self.players:
-            the_player = self.players[name]
-            self.current_players.append(the_player)
+            self.current_players.append(name)
             msg = f"{name} has been added to the game"
         else:
             msg = 'Player not found. Use command create_player first'
@@ -53,7 +53,7 @@ class Game:
 
     def remove_player(self, name):
         """Remove a player from the game."""
-        msg = f"{name} was removed."
+        msg = f"{name} was removed from the game."
 
         if name in self.current_players:
             self.current_players.remove(name)
@@ -72,6 +72,10 @@ class Game:
             msg = 'Player not found.'
 
         return msg
+
+    def exit(self):
+        """Exit the game."""
+        highscore.save_player_data(self.save_file, self.players)
 
     def get_players(self):
         """Get players from players array."""

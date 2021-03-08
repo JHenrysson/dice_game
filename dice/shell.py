@@ -1,8 +1,7 @@
-"""Shell class."""
+"""Shell Module."""
 
 import cmd
-
-from dice import game, player
+import game
 
 
 class Shell(cmd.Cmd):
@@ -45,7 +44,12 @@ class Shell(cmd.Cmd):
         """Create a new player."""
         self.game.create_player(name)
 
+    def do_delete_player(self, name):
+        """Delete a saved player."""
+        self.game.delete_player(name)
+
     def do_exit(self, _):
         """Exit the game."""
+        self.game.exit()
         print("Thanks for playing! See you next time")
         return True  # Returning true breaks the cmd loop

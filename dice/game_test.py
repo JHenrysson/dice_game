@@ -31,7 +31,7 @@ class TestGameClass(unittest.TestCase):
         the_game.create_player('Test')
         the_game.add_player('Test')
         res = the_game.current_players[0]
-        exp = the_game.players['Test']
+        exp = 'Test'
         self.assertEqual(res, exp)
 
     def test_add_player_that_doesnt_exist(self):
@@ -71,7 +71,7 @@ class TestGameClass(unittest.TestCase):
         the_game = game.Game()
         the_game.current_players = ['player1', 'player2']
         res = the_game.remove_player('player1')
-        exp = "player1 was removed."
+        exp = "player1 was removed from the game."
         self.assertEqual(res, exp)
 
     def test_remove_player_output_fail(self):
