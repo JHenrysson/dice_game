@@ -106,6 +106,14 @@ class TestGameClass(unittest.TestCase):
         exp = "Player not found."
         self.assertEqual(res, exp)
 
+    def test_roll(self):
+        """Check the dice are rolled and returns valid number."""
+        the_game = game.Game()
+
+
+    def test_exit(self):
+        """Check exit method is called correctly."""
+
 
 if __name__ == '__main__':
     unittest.main()

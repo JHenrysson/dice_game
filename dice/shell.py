@@ -31,22 +31,34 @@ class Shell(cmd.Cmd):
             self.game.start()
 
     def do_add_player(self, name):
-        """Add a player to the game."""
+        """Add a player to the game. add_player <name>."""
         msg = self.game.add_player(name)
         print(msg)
 
     def do_remove_player(self, name):
-        """Remove a player."""
+        """Remove a player. remove_player <name>"""
         msg = self.game.remove_player(name)
         print(msg)
 
     def do_create_player(self, name):
-        """Create a new player."""
+        """Create a new player. create_player <name>"""
         self.game.create_player(name)
 
     def do_delete_player(self, name):
-        """Delete a saved player."""
+        """Delete a saved player. delete_player <name>"""
         self.game.delete_player(name)
+
+    def do_roll(self, _):
+        """Roll the dice."""
+        self.game.roll()
+
+    def do_hold(self, _):
+        """Save the turn points."""
+        self.game.hold()
+
+    def do_set_difficulty(self, level):
+        """Set the games difficulty."""
+        self.game.set_difficulty(level)
 
     def do_exit(self, _):
         """Exit the game."""

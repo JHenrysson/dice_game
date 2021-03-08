@@ -4,6 +4,7 @@ import os
 import random
 import player
 import highscore
+import die
 
 
 class Game:
@@ -12,9 +13,12 @@ class Game:
     save_file = 'highscores.pickle'
     players = {}
     current_players = []
-    player1_total = None
-    player2_total = None
+    active_player = 0  # player 1 = 0 || player 2 = 1
+    difficulty = 'easy'
+    player1_total = 0
+    player2_total = 0
     goal = 100
+    dice = die.Die()
 
     def __init__(self):
         """Init the object."""
@@ -26,6 +30,7 @@ class Game:
         """Set the starting values for players scores."""
         self.player1_total = 0
         self.player2_total = 0
+        self.active_player = 0
 
     def add_player(self, name):
         """Add a player to the players array."""
@@ -72,6 +77,25 @@ class Game:
             msg = 'Player not found.'
 
         return msg
+
+    def roll(self):
+        """Roll the dice and update players total."""
+        result = self.dice.roll()
+        if result == 1:
+            # dicehand.reset()
+            self.active_player = int(not self.active_player)
+        else:
+            # dicehand.add(result)
+            pass
+
+        print(result)
+        return result  # To show in the terminal using shell class
+
+    def hold(self):
+        """Save points."""
+        player_index = self.active_player
+        the_player = self.current_players[player_index]
+        the_player.set_game_score(dicehand.get_total)
 
     def exit(self):
         """Exit the game."""
