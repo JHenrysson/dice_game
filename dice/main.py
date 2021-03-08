@@ -3,7 +3,7 @@ Welcome to PIG
 
 """
 
-import shell
+from dice import shell
 
 if __name__ == '__main__':
     print(__doc__)

@@ -1,8 +1,8 @@
 """Shell class."""
 
 import cmd
-import game
-import player
+
+from dice import game, player
 
 
 class Shell(cmd.Cmd):

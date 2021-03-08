@@ -1,2 +1,4 @@
 #this means files from the virtual environment will be ignored from git
+venv
 .venv
+__pycache__
