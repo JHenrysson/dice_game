@@ -1,12 +1,16 @@
 """Main class for the game logic."""
 
+import os
 import random
+import player
+import highscore
 
 
 class Game:
     """Game class."""
 
-    players = []
+    players = {}
+    current_players = []
     player1_total = None
     player2_total = None
     goal = 100
@@ -14,25 +18,58 @@ class Game:
     def __init__(self):
         """Init the object."""
         random.seed()
+        if os.path.exists('highscore.pickle'):
+            self.players = highscore.get_player_data('highscore.pickle')
 
     def start(self):
         """Set the starting values for players scores."""
         self.player1_total = 0
         self.player2_total = 0
 
-    def add_player(self, new_player):
+    def add_player(self, name):
         """Add a player to the players array."""
-        self.players.append(new_player)
-
-    def show_players(self):
-        """Return a msg showing the players."""
-        msg = "No players found!"
-
-        if len(self.players) == 1:
-            msg = f"Player 1: {self.players[0].get_name()}"
+        if len(self.current_players) == 2:
+            msg = "You already have 2 players. Use command remove_player first"
+        elif name in self.players:
+            the_player = self.players[name]
+            self.current_players.append(the_player)
+            msg = f"{name} has been added to the game"
         else:
-            msg = (f"Player 1: {self.players[0].get_name()} || " +
-                   f"Player 2: {self.players[1].get_name()}")
+            msg = 'Player not found. Use command create_player first'
+
+        return msg
+
+    def create_player(self, name):
+        """Create a new player and add them to players dictionary."""
+        msg = f"{name} has been added to players"
+
+        if name not in self.players:
+            new_player = player.Player(name)
+            self.players[name] = new_player
+        else:
+            msg = "That name is already taken! Try again."
+
+        return msg
+
+    def remove_player(self, name):
+        """Remove a player from the game."""
+        msg = f"{name} was removed."
+
+        if name in self.current_players:
+            self.current_players.remove(name)
+        else:
+            msg = f"{name} not found in player list."
+
+        return msg
+
+    def delete_player(self, name):
+        """Delete a player from saved players."""
+        msg = f"{name} has been deleted."
+
+        if name in self.players:
+            self.players.pop(name)
+        else:
+            msg = 'Player not found.'
 
         return msg
 

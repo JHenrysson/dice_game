@@ -25,33 +25,85 @@ class TestGameClass(unittest.TestCase):
         self.assertEqual(res, exp)
         self.assertEqual(res2, exp)
 
-    def test_add_player(self):
-        """Check player added to players array correctly."""
+    def test_add_player_that_exists(self):
+        """Check existing player added to current players correctly."""
         the_game = game.Game()
-        new_player = player.Player('Paul')
-        the_game.add_player(new_player)
-
-        res = the_game.players[0]
-        exp = new_player
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        res = the_game.current_players[0]
+        exp = the_game.players['Test']
         self.assertEqual(res, exp)
 
-    def test_show_players(self):
-        """Test whether player names are shown correctly."""
+    def test_add_player_that_doesnt_exist(self):
+        """Check correct output when player non existant."""
         the_game = game.Game()
-        the_game.players = []
-
-        player1 = player.Player('Paul')
-        the_game.add_player(player1)
-
-        res = the_game.show_players()
-        exp = "Player 1: Paul"
+        the_game.players = {}
+        res = the_game.add_player('invalid name')
+        exp = "Player not found. Use command create_player first"
         self.assertEqual(res, exp)
 
-        player2 = player.Player('Xuan')
-        the_game.add_player(player2)
+    def test_add_player_when_list_full(self):
+        """Check only two players can be added to the list."""
+        the_game = game.Game()
+        the_game.players = {'player3': 'Test'}
+        the_game.current_players = ['player1', 'player2']
+        res = the_game.add_player('player3')
+        exp = "You already have 2 players. Use command remove_player first"
+        self.assertEqual(res, exp)
 
-        res = the_game.show_players()
-        exp = "Player 1: Paul || Player 2: Xuan"
+    def test_create_player(self):
+        """Check player is created properly."""
+        the_game = game.Game()
+        the_game.players = {}
+        the_game.create_player('Test')
+        self.assertIsInstance(the_game.players['Test'], player.Player)
+
+    def test_remove_player(self):
+        """Check a player can be removed from current players."""
+        the_game = game.Game()
+        the_game.current_players = ['player1', 'player2']
+        the_game.remove_player('player1')
+        res = 'player1' not in the_game.current_players
+        self.assertTrue(res)
+
+    def test_remove_player_output_success(self):
+        """Check for correct output when player removed."""
+        the_game = game.Game()
+        the_game.current_players = ['player1', 'player2']
+        res = the_game.remove_player('player1')
+        exp = "player1 was removed."
+        self.assertEqual(res, exp)
+
+    def test_remove_player_output_fail(self):
+        """Check output when player not found in list."""
+        the_game = game.Game()
+        the_game.current_players = ['player1']
+        res = the_game.remove_player('player2')
+        exp = "player2 not found in player list."
+        self.assertEqual(res, exp)
+
+    def test_delete_player(self):
+        """Check player is deleted from saved players."""
+        the_game = game.Game()
+        the_game.players = {'player1': 'test'}
+        the_game.delete_player('player1')
+        res = 'player1' not in the_game.players
+        self.assertTrue(res)
+
+    def test_delete_player_output_success(self):
+        """Check for correct output when player deleted."""
+        the_game = game.Game()
+        the_game.players = {'player1': 'test'}
+        res = the_game.delete_player('player1')
+        exp = "player1 has been deleted."
+        self.assertEqual(res, exp)
+
+    def test_delete_player_output_fail(self):
+        """Check for correct output when deleting non existent player."""
+        the_game = game.Game()
+        the_game.players = {}
+        res = the_game.delete_player('player1')
+        exp = "Player not found."
         self.assertEqual(res, exp)
 
 

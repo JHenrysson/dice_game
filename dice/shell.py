@@ -33,15 +33,17 @@ class Shell(cmd.Cmd):
 
     def do_add_player(self, name):
         """Add a player to the game."""
-        if len(self.game.players) < 2:
-            self.game.add_player(player.Player(name))
-        else:
-            print("You already have the maximum number of players!")
-
-    def do_show_players(self, _):
-        """Show the current players names."""
-        msg = self.game.show_players()
+        msg = self.game.add_player(name)
         print(msg)
+
+    def do_remove_player(self, name):
+        """Remove a player."""
+        msg = self.game.remove_player(name)
+        print(msg)
+
+    def do_create_player(self, name):
+        """Create a new player."""
+        self.game.create_player(name)
 
     def do_exit(self, _):
         """Exit the game."""

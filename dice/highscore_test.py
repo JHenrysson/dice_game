@@ -1,10 +1,10 @@
 """Highscore class tests."""
 
-import unittest
-import highscore
 import os
 import pickle
 import unittest.mock as mock
+import unittest
+import highscore
 
 
 class TestHighscoreClass(unittest.TestCase):
