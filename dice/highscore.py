@@ -3,11 +3,11 @@
 import pickle
 
 
-def save_player_data(file_name, scores):
+def save_player_data(file_name, players):
     """Update the highscores."""
     try:
         with open(file_name, 'wb') as _file:
-            pickle.dump(scores, _file)
+            pickle.dump(players, _file)
     except pickle.PicklingError:
         print("Error: Pickling error!")
 

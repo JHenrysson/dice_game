@@ -1,10 +1,11 @@
 """Main class for the game logic."""
 
 import os
-import random
 import player
 import highscore
 import die
+import dicehand
+import ai
 
 
 class Game:
@@ -13,31 +14,38 @@ class Game:
     save_file = 'highscores.pickle'
     players = {}
     current_players = []
-    active_player = 0  # player 1 = 0 || player 2 = 1
-    difficulty = 'easy'
-    player1_total = 0
-    player2_total = 0
-    goal = 100
-    dice = die.Die()
+    active_index = 1  # player 1 = 0 || player 2 = 1
+    active_player = None
+    dice = None
+    turn = None
+    machine = None
+    game_active = False
 
     def __init__(self):
         """Init the object."""
-        random.seed()
+        self.machine = ai.AI('easy')
+        self.turn = dicehand.Dicehand()
+        self.dice = die.Die()
         if os.path.exists(self.save_file):
             self.players = highscore.get_player_data(self.save_file)
 
     def start(self):
         """Set the starting values for players scores."""
-        self.player1_total = 0
-        self.player2_total = 0
-        self.active_player = 0
+        if len(self.current_players) == 1:
+            self.current_players.append(self.machine)
+        self.game_active = True
+        self.toggle_active()
+        self.turn.reset()
+        for obj in self.current_players:
+            obj.reset_score()
 
     def add_player(self, name):
         """Add a player to the players array."""
         if len(self.current_players) == 2:
             msg = "You already have 2 players. Use command remove_player first"
         elif name in self.players:
-            self.current_players.append(name)
+            the_player = self.players[name]
+            self.current_players.append(the_player)
             msg = f"{name} has been added to the game"
         else:
             msg = 'Player not found. Use command create_player first'
@@ -78,28 +86,57 @@ class Game:
 
         return msg
 
+    def toggle_active(self):
+        """Toggle active player."""
+        self.active_index = int(not self.active_index)
+        self.active_player = self.current_players[self.active_index]
+
+    def display_scores(self):
+        """Display current scores."""
+        player1 = self.current_players[0]
+        player2 = self.current_players[1]
+
+        msg = (f"{player1.get_name():15} -> {player1.get_score()}\n" +
+               f"{player2.get_name():15} -> {player2.get_score()}\n")
+
+        return msg
+
+    def set_difficulty(self, value):
+        """Set the games difficulty."""
+        self.machine = ai.AI(value)
+
     def roll(self):
         """Roll the dice and update players total."""
-        result = self.dice.roll()
-        if result == 1:
-            # dicehand.reset()
-            self.active_player = int(not self.active_player)
+        the_player = self.active_player
+        number = self.dice.roll()  # roll the dice
+        total = self.turn.get_total()  # Get turn total before roll
+        if number == 1:
+            self.active_player.set_score(0)  # Add 0 to players score
+            self.turn.reset()  # reset turn total
+            self.toggle_active()  # change active player
         else:
-            # dicehand.add(result)
-            pass
-
-        print(result)
-        return result  # To show in the terminal using shell class
+            self.turn.increment(number)  # Add to turn total
+            total = self.turn.get_total()  # Get current total
+            if the_player.get_score() + total > 10:
+                the_player.set_score(total)
+        return number, total  # Return value used in shell class to print msg
 
     def hold(self):
-        """Save points."""
-        player_index = self.active_player
-        the_player = self.current_players[player_index]
-        the_player.set_game_score(dicehand.get_total)
+        """Add the points for the turn to players score."""
+        turn_score = self.turn.get_total()  # Get score for this turn
+        the_player = self.active_player  # Select current player
+        the_player.set_score(turn_score)  # Add total to players score
+        self.turn.reset()  # Reset the turn total to 0
+        self.toggle_active()  # Change active player
+
+    def check_for_winner(self):
+        """Check for a winning score."""
+        for obj in self.current_players:  # loop through players
+            if obj.get_score() >= 10:  # Check if player has reach goal
+                return True, obj
+            else:
+                return False, obj
 
     def exit(self):
         """Exit the game."""
         highscore.save_player_data(self.save_file, self.players)
-
-    def get_players(self):
-        """Get players from players array."""

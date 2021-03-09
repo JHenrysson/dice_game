@@ -5,8 +5,8 @@ class Player:
     """Player class."""
 
     name = None
-    highscore = None
-    game_score = 0
+    highscore = None  # Winning the game in least amount of rolls
+    scores = []
 
     def __init__(self, name):
         """Initialise the object."""
@@ -20,10 +20,25 @@ class Player:
         """Update players name."""
         self.name = name
 
-    def get_game_score(self):
+    def get_score(self):
         """Return players score for current game."""
-        return self.game_score
+        return sum(self.scores)
 
-    def set_game_score(self, score):
+    def get_turns(self):
+        """Return total turns player has taken."""
+        return len(self.scores)
+
+    def set_score(self, score):
         """Update players score for current game."""
-        self.game_score += score
+        self.scores.append(score)
+
+    def reset_score(self):
+        """Reset object score to empty list."""
+        self.scores = []
+
+    def update_highscore(self, score):
+        """Check if new highscore and update if it is."""
+        if self.highscore is None:
+            self.highscore = score
+        elif self.highscore > score:
+            self.highscore = score

@@ -14,25 +14,14 @@ class TestGameClass(unittest.TestCase):
         exp = game.Game
         self.assertIsInstance(res, exp)
 
-    def test_start_game(self):
-        """Check values are initialised for players score."""
-        the_game = game.Game()
-        the_game.start()
-
-        res = the_game.player1_total
-        res2 = the_game.player2_total
-        exp = 0
-        self.assertEqual(res, exp)
-        self.assertEqual(res2, exp)
-
-    def test_add_player_that_exists(self):
-        """Check existing player added to current players correctly."""
-        the_game = game.Game()
-        the_game.create_player('Test')
-        the_game.add_player('Test')
-        res = the_game.current_players[0]
-        exp = 'Test'
-        self.assertEqual(res, exp)
+    # def test_add_player_that_exists(self):
+    #     """Check existing player added to current players correctly."""
+    #     the_game = game.Game()
+    #     the_game.create_player('Test')
+    #     the_game.add_player('Test')
+    #     res = the_game.current_players[0]
+    #     exp = 'Test'
+    #     self.assertEqual(res, exp)
 
     def test_add_player_that_doesnt_exist(self):
         """Check correct output when player non existant."""
@@ -105,14 +94,6 @@ class TestGameClass(unittest.TestCase):
         res = the_game.delete_player('player1')
         exp = "Player not found."
         self.assertEqual(res, exp)
-
-    def test_roll(self):
-        """Check the dice are rolled and returns valid number."""
-        the_game = game.Game()
-
-
-    def test_exit(self):
-        """Check exit method is called correctly."""
 
 
 if __name__ == '__main__':
