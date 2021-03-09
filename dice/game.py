@@ -1,3 +1,5 @@
+# Change game winning total from 10 to 100
+
 """Main class for the game logic."""
 
 import os
@@ -16,9 +18,6 @@ class Game:
     current_players = []
     active_index = 1  # player 1 = 0 || player 2 = 1
     active_player = None
-    dice = None
-    turn = None
-    machine = None
     game_active = False
 
     def __init__(self):

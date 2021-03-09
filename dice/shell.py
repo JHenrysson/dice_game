@@ -94,6 +94,7 @@ class Shell(cmd.Cmd):
         command = line.split(' ')[0]
 
         if command in ['roll', 'hold'] and self.game.game_active:
+
             active_player = self.game.active_player
 
             has_winner, winner = self.game.check_for_winner()
@@ -115,7 +116,14 @@ class Shell(cmd.Cmd):
                 self.game.display_scores()
                 return False
 
-            return False
+        if self.game.game_active:
+            self.prompt = self.set_prompt()
 
         if command == 'exit':
             return True
+
+        return False
+
+    def set_prompt(self):
+        """Set the prompt to the players name."""
+        return f"({self.game.active_player.name}) "
