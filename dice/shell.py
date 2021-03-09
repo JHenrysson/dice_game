@@ -42,6 +42,21 @@ class Shell(cmd.Cmd):
         """Show the current players names."""
         msg = self.game.show_players()
         print(msg)
+    
+        def do_show_rule(self, _):
+        """The rule of the game."""
+        first_line = "Each turn, a player repeatedly rolls a die until either "
+        second_line = "a 1 is rolled or the player decides to 'hold':"
+        third_line = "If the player rolls a 1, they score nothing"
+        fourth_line = " and the next player takes turn"
+        fifth_line = "If the player rolls any other number, it is added "
+        sixth_line = "to their turn total and the player's turn continues"
+        seventh_line = "If a player chooses to 'hold', their turn total is "
+        eight_line = "added to their score, and the next player takes."
+        print(first_line + second_line)
+        print(third_line + fourth_line)
+        print(fifth_line + sixth_line)
+        print(seventh_line + eight_line)
 
     def do_exit(self, _):
         """Exit the game."""
