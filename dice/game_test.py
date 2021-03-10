@@ -95,6 +95,10 @@ class TestGameClass(unittest.TestCase):
         exp = "Player not found."
         self.assertEqual(res, exp)
 
+    def test_cheat(self):
+        """Check for correct output when cheat."""
+        self.assertEqual(game.Game().cheat(), 99)
+
 
 if __name__ == '__main__':
     unittest.main()

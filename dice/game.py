@@ -161,11 +161,10 @@ class Game:
 
     def cheat(self):
         """Cheat and update players total."""
-        the_player = self.active_player
         self.turn.set(99)  # Add to turn total
         total = self.turn.get_total()  # Get current total
         print(f"Turn total -> {total}\n")
-        return 99, total  # Return value used in shell class to print msg
+        return total  # Return value used in shell class to print msg
 
     def exit(self):
         """Exit the game."""
