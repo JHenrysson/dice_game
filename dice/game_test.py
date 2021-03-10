@@ -176,6 +176,9 @@ class TestGameClass(unittest.TestCase):
         the_game.set_difficulty('hard')
         after = the_game.machine.difficulty
         self.assertEqual(after, 'hard')
+    def test_cheat(self):
+        """Check for correct output when cheat."""
+        self.assertEqual(game.Game().cheat(), 99)
 
 
 if __name__ == '__main__':
