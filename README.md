@@ -8,7 +8,7 @@ A two player game designed to be played with a friend or against the computer. I
 
 ### Prerequisites
 
-Python should be installed and download this repository 
+Python 3.7 should be installed and download this repository 
 
 
 ### Getting Started ###
