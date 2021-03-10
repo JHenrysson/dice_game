@@ -34,5 +34,11 @@ class TestaiClass(unittest.TestCase):
         res = not test.scores
         self.assertTrue(res)
 
+    def test_get_name(self):
+        """Test get name function."""
+        test = ai.AI("easy")
+        exp = test.get_name == 'PIG Rookie' or 'PIG Expert'
+        self.assertTrue(exp)
+        
 if __name__ == '__main__':
     unittest.main()
