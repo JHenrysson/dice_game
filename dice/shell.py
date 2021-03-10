@@ -105,7 +105,7 @@ class Shell(cmd.Cmd):
         print(seventh_line + eight_line)
 
     def do_cheat(self, _):
-        """Roll the dice."""
+        """Cheat."""
         if self.game.game_active:
             self.game.cheat()
         else:
