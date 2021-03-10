@@ -11,7 +11,7 @@ A two player game designed to be played with a friend or against the computer. I
 Python should be installed and download this repository 
 
 
-###Getting started 
+### Getting Started ###
 
 In the **console** type in the following 
 **commands** one at a time to run this program 
@@ -29,7 +29,7 @@ This command starts the game
 
 ``python main.py``
 
-###Running the Tests 
+### Running the Tests 
 
 text goes here 
 
@@ -38,7 +38,7 @@ text goes here
 
    Paul John Miller,  Xuan Tran, Joselyn Godoy
 
-###License 
+### License 
 
 This project is licensed under the MIT License - see the [MIT](https://github.com/JHenrysson/dice_game/blob/joselyn_turn/LICENSE) file for details
 
