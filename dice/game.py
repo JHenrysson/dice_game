@@ -13,12 +13,12 @@ import ai
 class Game:
     """Game class."""
 
-    save_file = 'highscores.pickle'
     players = {}
     current_players = []
     active_index = 1  # player 1 = 0 || player 2 = 1
     active_player = None
     game_active = False
+    save_file = 'highscores.pickle'
 
     def __init__(self):
         """Init the object."""
@@ -85,6 +85,19 @@ class Game:
 
         return msg
 
+    def update_player(self, name, new_name):
+        """Update a players name."""
+        msg = f"Name has been updated to {new_name}"
+
+        if name in self.players:
+            self.players[new_name] = self.players.pop(name)
+            self.players[new_name].set_name(new_name)
+
+        else:
+            msg = f"Player {name} does not exist."
+
+        return msg
+
     def toggle_active(self):
         """Toggle active player."""
         self.active_index = int(not self.active_index)
@@ -102,7 +115,7 @@ class Game:
 
     def set_difficulty(self, value):
         """Set the games difficulty."""
-        self.machine = ai.AI(value)
+        self.machine.difficulty = value
 
     def roll(self):
         """Roll the dice and update players total."""
@@ -116,8 +129,8 @@ class Game:
         else:
             self.turn.increment(number)  # Add to turn total
             total = self.turn.get_total()  # Get current total
-            if the_player.get_score() + total > 10:
-                the_player.set_score(total)
+            if the_player.get_score() + total > 10:  # Check if player won
+                the_player.set_score(total)  # Update players score
         return number, total  # Return value used in shell class to print msg
 
     def hold(self):

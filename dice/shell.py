@@ -51,6 +51,18 @@ class Shell(cmd.Cmd):
         """Delete a saved player. delete_player <name>."""
         self.game.delete_player(name)
 
+    def do_change_name(self, arg):
+        """Update an existing players name.
+
+        change_name <old name> <new name>
+        Eg. change_name John David
+        """
+        args = arg.split(' ')
+        player_name = args[0]
+        new_name = args[1]
+        msg = self.game.update_player(player_name, new_name)
+        print(msg)
+
     def do_roll(self, _):
         """Roll the dice."""
         if self.game.game_active:
@@ -104,7 +116,7 @@ class Shell(cmd.Cmd):
 
                 if isinstance(winner, player.Player):
                     winner.update_highscore(winner.get_turns())
-                    file_name = 'highscores.pickle'
+                    file_name = self.game.save_file
                     players = self.game.players
                     highscore.save_player_data(file_name, players)
 
