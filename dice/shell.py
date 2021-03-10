@@ -89,8 +89,9 @@ class Shell(cmd.Cmd):
         else:
             print("Valid options are easy or hard")
 
+    # pylint: disable=no-self-use
     def do_show_rule(self, _):
-        """The rule of the game."""
+        """Display the game rules."""
         first_line = "Each turn, a player repeatedly rolls a die until either "
         second_line = "a 1 is rolled or the player decides to 'hold':"
         third_line = "If the player rolls a 1, they score nothing"
@@ -149,6 +150,11 @@ class Shell(cmd.Cmd):
         if command == 'exit':
             return True
 
+        return False
+
+    def emptyline(self):
+        """Disable automatic calling of previous command on emptyline."""
+        print('\nYou didnt enter a valid command!\n')
         return False
 
     def set_prompt(self):
