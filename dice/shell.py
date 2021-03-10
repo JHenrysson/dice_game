@@ -104,6 +104,13 @@ class Shell(cmd.Cmd):
         print(fifth_line + sixth_line)
         print(seventh_line + eight_line)
 
+    def do_cheat(self, _):
+        """Roll the dice."""
+        if self.game.game_active:
+            self.game.cheat()
+        else:
+            print("You must start the game first with command start")
+
     def do_exit(self, _):
         """Exit the game."""
         self.game.exit()
