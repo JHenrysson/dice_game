@@ -3,6 +3,7 @@
 import unittest
 import player
 import game
+import ai
 
 
 class TestGameClass(unittest.TestCase):
@@ -14,14 +15,33 @@ class TestGameClass(unittest.TestCase):
         exp = game.Game
         self.assertIsInstance(res, exp)
 
-    # def test_add_player_that_exists(self):
-    #     """Check existing player added to current players correctly."""
-    #     the_game = game.Game()
-    #     the_game.create_player('Test')
-    #     the_game.add_player('Test')
-    #     res = the_game.current_players[0]
-    #     exp = 'Test'
-    #     self.assertEqual(res, exp)
+    def test_game_start_AI_is_added(self):
+        """Check if ai object is added to players."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        the_game.start()
+
+        res = the_game.current_players[1]
+        self.assertIsInstance(res, ai.AI)
+
+    def test_add_player_that_exists(self):
+        """Check existing player added to current players correctly."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        res = the_game.current_players[0]
+        self.assertIsInstance(res, player.Player)
+
+    def test_add_player_adds_correct_player(self):
+        """Check values on object to ensure it is correct object."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        res = the_game.current_players[0].get_name()
+        exp = 'Test'
+        self.assertEqual(res, exp)
+
 
     def test_add_player_that_doesnt_exist(self):
         """Check correct output when player non existant."""
@@ -41,11 +61,26 @@ class TestGameClass(unittest.TestCase):
         self.assertEqual(res, exp)
 
     def test_create_player(self):
-        """Check player is created properly."""
+        """Check player is created properly with correct values."""
         the_game = game.Game()
         the_game.players = {}
         the_game.create_player('Test')
-        self.assertIsInstance(the_game.players['Test'], player.Player)
+        obj = the_game.players['Test']
+        self.assertIsInstance(obj, player.Player)
+        res = obj.get_name()
+        exp = 'Test'
+        self.assertEqual(res, exp)
+
+    def test_create_player_returns_correct_msg(self):
+        """Check the correct message is returned."""
+        the_game = game.Game()
+        res = the_game.create_player('Test')
+        exp = 'Test has been added to players'
+        self.assertEqual(res, exp)
+
+        res = the_game.create_player('Test')
+        exp = 'That name is already taken! Try again.'
+        self.assertEqual(res, exp)
 
     def test_remove_player(self):
         """Check a player can be removed from current players."""
@@ -94,6 +129,53 @@ class TestGameClass(unittest.TestCase):
         res = the_game.delete_player('player1')
         exp = "Player not found."
         self.assertEqual(res, exp)
+
+    def test_update_player(self):
+        """Check player is updated correctly."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        the_game.update_player('Test', 'new name')
+        the_player = the_game.players['new name']
+        self.assertIsInstance(the_player, player.Player)
+
+    def test_update_player_output_message(self):
+        """Check update player returns correct output."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        res = the_game.update_player('Test', 'new name')
+        exp = 'Player Tests name has been updated to new name'
+        self.assertEqual(res, exp)
+        res = the_game.update_player('Not a player', 'new name')
+        exp = 'Player Not a player does not exist.'
+        self.assertEqual(res, exp)
+
+    def test_toggle_active(self):
+        """Check the active player is toggled correctly."""
+        the_game = game.Game()
+        the_game.create_player('player1')
+        the_game.create_player('player2')
+        the_game.add_player('player1')
+        the_game.add_player('player2')
+        the_game.start()
+        res = the_game.active_player.get_name()
+        exp = 'player1'
+        self.assertEqual(res, exp)
+
+        # Toggle the active player
+        the_game.toggle_active()
+        res = the_game.active_player.get_name()
+        exp = 'player2'
+        self.assertEqual(res, exp)
+
+    def test_set_difficulty(self):
+        """Check the difficulty is correctly changed."""
+        the_game = game.Game()
+        initial = the_game.machine.difficulty
+        self.assertEqual(initial, 'easy')
+        # Change the difficulty
+        the_game.set_difficulty('hard')
+        after = the_game.machine.difficulty
+        self.assertEqual(after, 'hard')
 
 
 if __name__ == '__main__':

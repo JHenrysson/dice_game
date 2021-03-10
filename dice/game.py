@@ -1,4 +1,5 @@
 # Change game winning total from 10 to 100
+# Player highscore could be wrong when exiting the game mid game.
 
 """Main class for the game logic."""
 
@@ -25,6 +26,7 @@ class Game:
         self.machine = ai.AI('easy')
         self.turn = dicehand.Dicehand()
         self.dice = die.Die()
+        self.current_players = []
         if os.path.exists(self.save_file):
             self.players = highscore.get_player_data(self.save_file)
 
@@ -36,7 +38,7 @@ class Game:
         self.active_player = self.current_players[0]  # Set player 1 active
         self.turn.reset()  # Reset the turn score total
         for obj in self.current_players:
-            obj.reset_score()  # Reset the scores for players
+            obj.reset_score()  # Reset the scores for players if game restarts
 
     def add_player(self, name):
         """Add a player to the players array."""
@@ -87,7 +89,7 @@ class Game:
 
     def update_player(self, name, new_name):
         """Update a players name."""
-        msg = f"Name has been updated to {new_name}"
+        msg = f"Player {name}s name has been updated to {new_name}"
 
         if name in self.players:
             self.players[new_name] = self.players.pop(name)
