@@ -42,7 +42,6 @@ class TestGameClass(unittest.TestCase):
         exp = 'Test'
         self.assertEqual(res, exp)
 
-
     def test_add_player_that_doesnt_exist(self):
         """Check correct output when player non existant."""
         the_game = game.Game()
@@ -176,6 +175,36 @@ class TestGameClass(unittest.TestCase):
         the_game.set_difficulty('hard')
         after = the_game.machine.difficulty
         self.assertEqual(after, 'hard')
+
+    def test_roll(self):
+        """Check roll returns correct values."""
+        the_game = game.Game()
+        the_game.create_player('1')
+        the_game.add_player('1')
+        the_game.start()
+        first_roll, total_1_roll = the_game.roll()
+        if first_roll == 1:
+            self.assertEqual(total_1_roll, 0)
+        else:
+            self.assertEqual(first_roll, total_1_roll)
+            second_roll, total_2_rolls = the_game.roll()
+            if second_roll != 1:
+                exp = first_roll + second_roll
+                self.assertEqual(total_2_rolls, exp)
+
+    def test_hold(self):
+        """Check hold method updates values correctly."""
+        the_game = game.Game()
+        the_game.create_player('1')
+        the_game.add_player('1')
+        the_game.start()
+        the_game.hold()
+        players_score = the_game.current_players[0].scores[0]
+        self.assertEqual(players_score, 0)
+        res = the_game.active_player
+        exp = the_game.current_players[1]
+        self.assertEqual(res, exp)
+
     def test_cheat(self):
         """Check for correct output when cheat."""
         self.assertEqual(game.Game().cheat(), 99)

@@ -28,6 +28,14 @@ class PlayerTest(unittest.TestCase):
         exp = 'Joselyn'
         self.assertEqual(res, exp)
 
+    def test_set_score(self):
+        """Check the scores list is updated correctly."""
+        test_player = player.Player('Paul')
+        test_player.set_score(0)
+        res = test_player.scores[-1]
+        exp = 0
+        self.assertEqual(res, exp)
+
 
 if __name__ == '__main__':
     unittest.main()

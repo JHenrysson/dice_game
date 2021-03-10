@@ -18,7 +18,7 @@ class Dicehand():
         """Add the passed in value to the total."""
         self.total += value
 
-    def set(self, value):
+    def set_total(self, value):
         """Set the passed in value as the total."""
         self.total = value
 

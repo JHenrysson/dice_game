@@ -1,5 +1,7 @@
-# Change game winning total from 10 to 100
 # Player highscore could be wrong when exiting the game mid game.
+
+# Should add a boolean to track if cheat function was used. Avoid saving
+# highscore data when cheated = True
 
 """Main class for the game logic."""
 
@@ -130,11 +132,13 @@ class Game:
         the_player = self.active_player
         number = self.dice.roll()  # roll the dice
         total = self.turn.get_total()  # Get turn total before new score added
+
         if number == 1:
             self.active_player.set_score(0)  # Add 0 to players score
             print(f"You rolled a {number} and lost {total} points\n")
             self.turn.reset()  # reset turn total
             self.toggle_active()  # change active player
+
         else:
             self.turn.increment(number)  # Add to turn total
             total = self.turn.get_total()  # Get current total
@@ -142,6 +146,7 @@ class Game:
                 the_player.set_score(total)  # Update players score
             print(f"You rolled -> {number}\n")
             print(f"Turn total -> {total}\n")
+
         return number, total  # Return value used in shell class to print msg
 
     def hold(self):
@@ -163,7 +168,7 @@ class Game:
 
     def cheat(self):
         """Cheat and update players total."""
-        self.turn.set(99)  # Add to turn total
+        self.turn.set_total(99)  # Add to turn total
         total = self.turn.get_total()  # Get current total
         print(f"Turn total -> {total}\n")
         return total  # Return value used in shell class to print msg

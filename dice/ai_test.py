@@ -51,6 +51,14 @@ class TestaiClass(unittest.TestCase):
         exp = test.name == "paul"
         self.assertTrue(exp)
 
+    def test_get_turns(self):
+        """Check the correct amount of turns are returned."""
+        test = ai.AI('easy')
+        test.scores = [1, 2, 3]
+        res = test.get_turns()
+        exp = 3
+        self.assertEqual(res, exp)
+
 
 if __name__ == '__main__':
     unittest.main()
