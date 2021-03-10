@@ -27,6 +27,12 @@ class TestaiClass(unittest.TestCase):
         res = 4 in test.scores
         self.assertTrue(res)
 
+    def test_reset_score(self):
+        test = ai.AI("easy")
+        test.scores = [1]
+        test.reset_score
+        res = not test.scores
+        self.assertTrue(res)
 
 if __name__ == '__main__':
     unittest.main()
