@@ -66,13 +66,7 @@ class Shell(cmd.Cmd):
     def do_roll(self, _):
         """Roll the dice."""
         if self.game.game_active:
-            number, total = self.game.roll()
-            if number == 1:
-                print(f"You rolled a {number} and lost {total} points")
-                print(self.game.display_scores())
-            else:
-                print(f"You rolled a {number}")
-                print(f"Turn total -> {total}")
+            self.game.roll()
         else:
             print("You must start the game first with command start")
 
@@ -84,11 +78,11 @@ class Shell(cmd.Cmd):
         else:
             print("You must start the game first with command start")
 
-    def do_set_difficulty(self, arg):
+    def do_difficulty(self, arg):
         """Set the games difficulty. Options are easy or hard.
 
-        set_difficulty hard
-        set_difficulty easy
+        difficulty hard
+        difficulty easy
         """
         if arg in ['easy', 'hard']:
             self.game.set_difficulty(arg)
@@ -125,7 +119,6 @@ class Shell(cmd.Cmd):
             if isinstance(active_player, ai.AI):
                 self.game.machine.play()
                 self.game.toggle_active()
-                self.game.display_scores()
                 return False
 
         if self.game.game_active:

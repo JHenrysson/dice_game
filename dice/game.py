@@ -15,7 +15,7 @@ class Game:
 
     players = {}
     current_players = []
-    active_index = 1  # player 1 = 0 || player 2 = 1
+    active_index = 0  # player 1 = 0 || player 2 = 1
     active_player = None
     game_active = False
     save_file = 'highscores.pickle'
@@ -30,13 +30,13 @@ class Game:
 
     def start(self):
         """Set the starting values for players scores."""
-        if len(self.current_players) == 1:
+        if len(self.current_players) == 1:  # Add AI object for 1 player game
             self.current_players.append(self.machine)
         self.game_active = True
-        self.toggle_active()
-        self.turn.reset()
+        self.active_player = self.current_players[0]  # Set player 1 active
+        self.turn.reset()  # Reset the turn score total
         for obj in self.current_players:
-            obj.reset_score()
+            obj.reset_score()  # Reset the scores for players
 
     def add_player(self, name):
         """Add a player to the players array."""
@@ -102,52 +102,62 @@ class Game:
         """Toggle active player."""
         self.active_index = int(not self.active_index)
         self.active_player = self.current_players[self.active_index]
+        print(self.display_scores())
+        print(f"{self.active_player.get_name()}s turn\n")
 
     def display_scores(self):
         """Display current scores."""
         player1 = self.current_players[0]
         player2 = self.current_players[1]
 
-        msg = (f"{player1.get_name():15} -> {player1.get_score()}\n" +
-               f"{player2.get_name():15} -> {player2.get_score()}\n")
+        msg = (f"{'Player':13} | {'Score':^5}\n" +
+               f"{'-' * 21}\n" +
+               f"{player1.get_name():13} | {player1.get_score():^5}\n" +
+               f"{player2.get_name():13} | {player2.get_score():^5}\n")
 
         return msg
 
     def set_difficulty(self, value):
         """Set the games difficulty."""
-        self.machine.difficulty = value
+        self.machine.difficulty = value  # Change the game difficulty setting
+        new_name = ('PIG Rookie' if value == 'easy' else 'PIG Expert')
+        self.machine.set_name(new_name)
 
     def roll(self):
         """Roll the dice and update players total."""
         the_player = self.active_player
         number = self.dice.roll()  # roll the dice
-        total = self.turn.get_total()  # Get turn total before roll
+        total = self.turn.get_total()  # Get turn total before new score added
         if number == 1:
             self.active_player.set_score(0)  # Add 0 to players score
+            print(f"You rolled a {number} and lost {total} points\n")
             self.turn.reset()  # reset turn total
             self.toggle_active()  # change active player
         else:
             self.turn.increment(number)  # Add to turn total
             total = self.turn.get_total()  # Get current total
-            if the_player.get_score() + total > 10:  # Check if player won
+            if the_player.get_score() + total >= 100:  # Check if player won
                 the_player.set_score(total)  # Update players score
+            print(f"You rolled -> {number}\n")
+            print(f"Turn total -> {total}\n")
         return number, total  # Return value used in shell class to print msg
 
     def hold(self):
         """Add the points for the turn to players score."""
-        turn_score = self.turn.get_total()  # Get score for this turn
+        total = self.turn.get_total()  # Get score for this turn
         the_player = self.active_player  # Select current player
-        the_player.set_score(turn_score)  # Add total to players score
+        the_player.set_score(total)  # Add total to players score
         self.turn.reset()  # Reset the turn total to 0
+        print(f"{the_player.get_name()} scored {total} point this turn\n")
         self.toggle_active()  # Change active player
 
     def check_for_winner(self):
         """Check for a winning score."""
         for obj in self.current_players:  # loop through players
-            if obj.get_score() >= 10:  # Check if player has reach goal
-                return True, obj
+            if obj.get_score() >= 100:  # Check if player has won
+                return True, obj  # Return True with winning player object
             else:
-                return False, obj
+                return False, None
 
     def exit(self):
         """Exit the game."""
