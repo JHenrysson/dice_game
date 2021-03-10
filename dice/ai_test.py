@@ -20,7 +20,12 @@ class TestaiClass(unittest.TestCase):
         exp = 6
         self.assertEqual(res, exp)
         
-
+    def test_set_score(self):
+        test = ai.AI("easy")
+        test.scores = [1,2,3]
+        test.set_score(4)
+        res = 4 in test.scores
+        self.assertTrue(res)
 
 
 if __name__ == '__main__':
