@@ -74,8 +74,8 @@ class TestaiClass(unittest.TestCase):
     def test_play(self):
         turn = dicehand.Dicehand()
         res = ai.AI("easy").play()
-        res = turn.get_total()
-        self.assertEqual(res, 0)
+        exp = turn.get_total() >= 0
+        self.assertTrue(exp)
 
 if __name__ == '__main__':
     unittest.main()
