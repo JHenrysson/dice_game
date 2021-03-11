@@ -19,7 +19,7 @@ venv:
 	@printf "Type 'deactivate' to deactivate.\n"
 
 install:
-	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -r ../requirements.txt
 
 installed:
 	$(PYTHON) -m pip list
