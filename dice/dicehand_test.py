@@ -1,3 +1,4 @@
+"""Dicehand tests."""
 import unittest
 
 import dicehand

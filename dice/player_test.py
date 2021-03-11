@@ -1,3 +1,4 @@
+"""Player class module."""
 import unittest
 
 import player

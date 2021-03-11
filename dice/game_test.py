@@ -1,6 +1,7 @@
 """Unittests game."""
 
 import unittest
+from unittest.mock import MagicMock
 import player
 import game
 import ai
@@ -15,7 +16,7 @@ class TestGameClass(unittest.TestCase):
         exp = game.Game
         self.assertIsInstance(res, exp)
 
-    def test_game_start_AI_is_added(self):
+    def test_game_start_ai_is_added(self):
         """Check if ai object is added to players."""
         the_game = game.Game()
         the_game.create_player('Test')
@@ -70,13 +71,17 @@ class TestGameClass(unittest.TestCase):
         exp = 'Test'
         self.assertEqual(res, exp)
 
-    def test_create_player_returns_correct_msg(self):
-        """Check the correct message is returned."""
+    def test_create_player_returns_correct_msg_success(self):
+        """Check the correct message is returned on success."""
         the_game = game.Game()
         res = the_game.create_player('Test')
         exp = 'Test has been added to players'
         self.assertEqual(res, exp)
 
+    def test_create_player_returns_correct_msg_fail(self):
+        """Check the correct message is returned on failure."""
+        the_game = game.Game()
+        the_game.create_player('Test')
         res = the_game.create_player('Test')
         exp = 'That name is already taken! Try again.'
         self.assertEqual(res, exp)
@@ -176,21 +181,30 @@ class TestGameClass(unittest.TestCase):
         after = the_game.machine.difficulty
         self.assertEqual(after, 'hard')
 
-    def test_roll(self):
-        """Check roll returns correct values."""
+    def test_roll_when_rolling_1(self):
+        """Test object updated when rolling 1."""
         the_game = game.Game()
-        the_game.create_player('1')
-        the_game.add_player('1')
+        the_game.dice.roll = MagicMock(return_value=1)
+        the_game.create_player('Test')
+        the_game.add_player('Test')
         the_game.start()
-        first_roll, total_1_roll = the_game.roll()
-        if first_roll == 1:
-            self.assertEqual(total_1_roll, 0)
-        else:
-            self.assertEqual(first_roll, total_1_roll)
-            second_roll, total_2_rolls = the_game.roll()
-            if second_roll != 1:
-                exp = first_roll + second_roll
-                self.assertEqual(total_2_rolls, exp)
+        the_game.roll()
+        res = the_game.current_players[0].get_score()
+        exp = 0
+        self.assertEqual(res, exp)
+
+    def test_roll_when_rolling_not_1(self):
+        """Test object updated when rolling 1."""
+        the_game = game.Game()
+        the_game.dice.roll = MagicMock(return_value=6)
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        the_game.start()
+        the_game.current_players[0].set_score(99)
+        the_game.roll()
+        res = the_game.turn.get_total()
+        exp = 6
+        self.assertEqual(res, exp)
 
     def test_hold(self):
         """Check hold method updates values correctly."""

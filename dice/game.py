@@ -1,8 +1,3 @@
-# Player highscore could be wrong when exiting the game mid game.
-
-# Should add a boolean to track if cheat function was used. Avoid saving
-# highscore data when cheated = True
-
 """Main class for the game logic."""
 
 import os
@@ -13,15 +8,15 @@ import dicehand
 import ai
 
 
+# pylint: disable = too-many-instance-attributes
 class Game:
     """Game class."""
 
-    players = {}
-    current_players = []
     active_index = 0  # player 1 = 0 || player 2 = 1
     active_player = None
     game_active = False
     save_file = 'highscores.pickle'
+    cheated = False
 
     def __init__(self):
         """Init the object."""
@@ -31,6 +26,8 @@ class Game:
         self.current_players = []
         if os.path.exists(self.save_file):
             self.players = highscore.get_player_data(self.save_file)
+        else:
+            self.players = {}
 
     def start(self):
         """Set the starting values for players scores."""
@@ -107,7 +104,6 @@ class Game:
         self.active_index = int(not self.active_index)
         self.active_player = self.current_players[self.active_index]
         print(self.display_scores())
-        print(f"{self.active_player.get_name()}s turn\n")
 
     def display_scores(self):
         """Display current scores."""
@@ -160,11 +156,14 @@ class Game:
 
     def check_for_winner(self):
         """Check for a winning score."""
+        is_winner = False
+        winner = None
         for obj in self.current_players:  # loop through players
             if obj.get_score() >= 100:  # Check if player has won
-                return True, obj  # Return True with winning player object
-            else:
-                return False, None
+                is_winner = True
+                winner = obj
+
+        return is_winner, winner
 
     def cheat(self):
         """Cheat and update players total."""
@@ -172,7 +171,3 @@ class Game:
         total = self.turn.get_total()  # Get current total
         print(f"Turn total -> {total}\n")
         return total  # Return value used in shell class to print msg
-
-    def exit(self):
-        """Exit the game."""
-        highscore.save_player_data(self.save_file, self.players)

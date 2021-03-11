@@ -7,6 +7,8 @@ import dicehand
 class AI:
     """AI class for game logic."""
 
+    scores = []
+
     def __init__(self, difficulty):
         """Initialise object and set difficulty."""
         self.difficulty = difficulty
@@ -48,16 +50,14 @@ class AI:
 
             if number == 1:
                 total = self.turn.get_total()
-                print(f"{self.name} rolled a {number} and lost {total} points\n")
+                print(f"{self.name} rolled a {number}. Lost {total} points\n")
                 self.turn.reset()
                 break
-            else:
-                print(f'{self.name} rolled a {number}\n')
-                self.turn.increment(number)
-                total = self.turn.get_total()
-                if self.get_score() + total >= 100:
-                    self.set_score(total)
-                    break  # Break the loop if winning score
+
+            print(f'{self.name} rolled a {number}\n')
+            self.turn.increment(number)
+            if self.get_score() + self.turn.get_total() >= 100:
+                break  # Break the loop if winning score
 
         total = self.turn.get_total()
         self.set_score(total)

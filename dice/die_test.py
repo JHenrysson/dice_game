@@ -1,3 +1,4 @@
+"""Die class module."""
 import unittest
 
 import die

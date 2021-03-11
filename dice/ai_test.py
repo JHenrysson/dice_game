@@ -2,7 +2,6 @@
 import unittest
 from unittest.mock import MagicMock
 import ai
-import dicehand
 
 
 class TestAiClass(unittest.TestCase):
@@ -71,12 +70,12 @@ class TestAiClass(unittest.TestCase):
 
     def test_play_rolls_not_one(self):
         """Test object updated correctly when not rolling 1."""
-        obj = ai.AI('hard')
+        obj = ai.AI('easy')
         obj.dice.roll = MagicMock(return_value=6)
         obj.play()
         print(obj.scores)
         res = obj.get_score()
-        exp = 24
+        exp = 12
         self.assertEqual(res, exp)
 
     def test_play_breaks_loop(self):

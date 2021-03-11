@@ -114,7 +114,6 @@ class Shell(cmd.Cmd):
 
     def do_exit(self, _):
         """Exit the game."""
-        self.game.exit()
         print("Thanks for playing! See you next time")
         return True  # Returning true breaks the cmd loop
 
@@ -125,6 +124,11 @@ class Shell(cmd.Cmd):
         if command in ['roll', 'hold'] and self.game.game_active:
 
             active_player = self.game.active_player
+
+            if isinstance(active_player, ai.AI):
+                self.game.machine.play()
+                has_winner, winner = self.game.check_for_winner()
+                self.game.toggle_active()
 
             has_winner, winner = self.game.check_for_winner()
 
@@ -138,11 +142,6 @@ class Shell(cmd.Cmd):
                     highscore.save_player_data(file_name, players)
 
                 return True
-
-            if isinstance(active_player, ai.AI):
-                self.game.machine.play()
-                self.game.toggle_active()
-                return False
 
         if self.game.game_active:
             self.prompt = self.set_prompt()
