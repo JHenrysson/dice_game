@@ -65,7 +65,11 @@ class TestaiClass(unittest.TestCase):
         exp = test.turn.get_total() == 7 or 20
         self.assertEqual(res, exp)
 
-
+    def test_max_score(self):
+        test = ai.AI("easy")
+        res = test.max_score(50, 60)
+        exp = test.turn.get_total() == 7 or 20
+        self.assertEqual(res, exp)
 
 
 
