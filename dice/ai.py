@@ -47,19 +47,25 @@ class AI:
 
         while self.turn.get_total() < hold_total:
             number = dice.roll()
-
-            if number == 1:
-                total = self.turn.get_total()
-                print(f"{self.name} rolled a {number} and lost {total} points\n")
-                self.turn.reset()
-                break  # Break the loop, turn has ended (rolled a 1)
-
+            self.lost_turn(number)
+            
             print(f'{self.name} rolled a {number}\n')
             self.turn.increment(number)
-            if self.get_score() + self.turn.get_total() >= 100:
-                break  # Break the loop if winning score
+            self.max_score(self.get_score(),self.turn.get_total())
+
 
         total = self.turn.get_total()
         self.set_score(total)
         print(f"{self.name} scored {total} points this turn\n")
         self.turn.reset()
+
+    def lost_turn(self, number):
+        if number == 1:
+            total = self.turn.get_total()
+            print(f"{self.name} rolled a {number} and lost {total} points\n")
+            self.turn.reset()
+            return self.turn.get_total() == 7 or 20  # Break the loop, turn has ended (rolled a 1)
+
+    def max_score(self, accumulated_score, total_score):
+        if accumulated_score + total_score >= 100:
+            return self.turn.get_total() == 7 or 20  # Break the loop if winning score
