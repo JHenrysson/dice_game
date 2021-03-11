@@ -58,6 +58,15 @@ class TestaiClass(unittest.TestCase):
         res = test.get_turns()
         exp = 3
         self.assertEqual(res, exp)
+        
+   def test_lost_turn(self):
+        test = ai.AI("easy")
+        res = test.lost_turn(1)
+        exp = test.turn.get_total() == 7 or 20
+        self.assertEqual(res, exp)
+
+
+
 
 
 if __name__ == '__main__':
