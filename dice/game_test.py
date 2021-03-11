@@ -205,6 +205,21 @@ class TestGameClass(unittest.TestCase):
         exp = the_game.current_players[1]
         self.assertEqual(res, exp)
 
+    def test_check_for_winner(self):
+        """Check the winning player is detected and returned."""
+        the_game = game.Game()
+        the_game.create_player('1')
+        the_game.add_player('1')
+        boolean, obj = the_game.check_for_winner()
+        self.assertFalse(boolean)
+        self.assertIsNone(obj)
+
+        the_player = the_game.current_players[0]
+        the_player.set_score(100)
+        boolean, obj = the_game.check_for_winner()
+        self.assertTrue(boolean)
+        self.assertEqual(obj, the_player)
+
     def test_cheat(self):
         """Check for correct output when cheat."""
         self.assertEqual(game.Game().cheat(), 99)
