@@ -69,7 +69,7 @@ Instructions for generating diagrams
 <br> 
 To view the diagrams use this link 
 
-[Diagrams](link goes here)
+[UML & Package Diagrams](https://jhenrysson.github.io/dice_game/)
 
 
 **To Generate the UML & Package Diagrams**
