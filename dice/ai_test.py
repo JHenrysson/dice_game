@@ -71,7 +71,11 @@ class TestaiClass(unittest.TestCase):
         exp = test.turn.get_total() == 7 or 20
         self.assertEqual(res, exp)
 
-
+    def test_play(self):
+        turn = dicehand.Dicehand()
+        res = ai.AI("easy").play()
+        res = turn.get_total()
+        self.assertEqual(res, 0)
 
 if __name__ == '__main__':
     unittest.main()
