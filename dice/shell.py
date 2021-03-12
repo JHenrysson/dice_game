@@ -19,7 +19,7 @@ class Shell(cmd.Cmd):
         self.game = game.Game()
 
     def do_start(self, _):
-        """Start the game and initialise values."""
+        """Starts the game."""
         # Prompt user to add players if none present.
         if len(self.game.current_players) == 0:
 
@@ -47,7 +47,7 @@ class Shell(cmd.Cmd):
         print(msg)
 
     def do_remove_player(self, name):
-        """Remove a player. remove_player <name>."""
+        """Remove a player from the game. remove_player <name>."""
         msg = self.game.remove_player(name)
         print(msg)
 
@@ -79,7 +79,7 @@ class Shell(cmd.Cmd):
             print("You must start the game first with command start")
 
     def do_hold(self, _):
-        """Save the turn points."""
+        """End your turn and save your score."""
         if self.game.game_active:
             self.game.hold()
             self.game.display_scores()
@@ -125,7 +125,7 @@ class Shell(cmd.Cmd):
         return e.get_score()
 
     def do_highscore(self, _):
-        """Highscore."""
+        """Show players highscores."""
         players = list(self.game.get_players().values())
         players.sort(key=self.sort_highscore, reverse=True)
 
