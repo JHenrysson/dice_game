@@ -57,6 +57,75 @@ But the player can choose difficulty level EASY or HARD. This is decided
 at the beginning of the game. 
 
 The first one to reach 100 wins the game 
+
+### Guide to play game using commands
+
+Before starting a game, player has to create a name with this command:
+
+``create_name <player1_name>``
+
+The next step is to register the name in to the game by command:
+
+``add_name <player1_name>``
+
+After that the player can choose one of the option below:
+
+The player want to play against the computer, there are 2 difficulty:
+
+``difficulty easy`` or ``difficulty hard``
+
+Or, the player want to play against another player:
+
+``create_name <player2_name>``
+then
+``add_name <player2_name>``
+
+The player after doing those steps above, now can start a game by writing command:
+
+``start``
+
+The player1 shall play first, either roll or hold:
+
+``roll`` or ``hold``
+
+The next turn is belonged to player2, the same command above roll or hold
+If the player1 plays against the machine, the machine shall automatically decide to
+roll or hold based the difficulty setting in the beginning.
+The game stop when either one player or machine reachs 100 score or the player decides to
+stop the game.
+
+To stop the game, player can use this command and no score shall be recorded because the game 
+has not finished yet:
+
+``exit``
+
+If player makes wrong moves and want to restart the game:
+
+``restart``
+
+If player forgets the rule, type this command:
+
+``show rule``
+
+To see the command list type:
+
+``help``
+
+If the player want to cheat, and get 100 procents chance to get 99 point, type this command:
+
+``cheat``
+
+To delete player, this operation must be done before adding name to the game 
+and after creating the name:
+
+``delete_name <player_name>``
+
+To change name of player, type this command:
+
+``change_name <player_old_name> <player_new_name>``
+
+
+
 ### Running the Tests 
 
 To check test coverage follow these steps 
@@ -69,7 +138,7 @@ Instructions for generating diagrams
 <br> 
 To view the diagrams use this link 
 
-[Diagrams](link goes here)
+[UML & Package Diagrams](https://jhenrysson.github.io/dice_game/)
 
 
 **To Generate the UML & Package Diagrams**
