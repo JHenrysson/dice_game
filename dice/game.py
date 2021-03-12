@@ -171,3 +171,7 @@ class Game:
         total = self.turn.get_total()  # Get current total
         print(f"Turn total -> {total}\n")
         return total  # Return value used in shell class to print msg
+
+    def get_players(self):
+        """Get all players"""
+        return self.players
