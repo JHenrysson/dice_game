@@ -26,6 +26,24 @@ class TestGameClass(unittest.TestCase):
         res = the_game.current_players[1]
         self.assertIsInstance(res, ai.AI)
 
+    def test_game_restart_turn_score(self):
+        """Test case for turn score when game restart."""
+        the_game = game.Game()
+        the_game.turn.set_total(6)
+        the_game.restart()
+        self.assertEqual(the_game.turn.get_total(), 0)
+
+    def test_game_restart_total_score(self):
+        """Test case for total score when game restart."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        the_game.turn.set_total(6)
+        the_game.current_players[0].set_score(5)
+        the_game.restart()
+        res = the_game.current_players[0].get_score()
+        self.assertEqual(res, 0)
+
     def test_add_player_that_exists(self):
         """Check existing player added to current players correctly."""
         the_game = game.Game()

@@ -39,6 +39,13 @@ class Game:
         for obj in self.current_players:
             obj.reset_score()  # Reset the scores for players if game restarts
 
+    def restart(self):
+        """Quit the current game and retart it."""
+        self.turn.reset()
+        for obj in self.current_players:
+            obj.reset_score()
+        print("Your current game has been restarted. ")
+
     def add_player(self, name):
         """Add a player to the players array."""
         if len(self.current_players) == 2:

@@ -33,6 +33,10 @@ class Shell(cmd.Cmd):
         else:
             self.game.start()
 
+    def do_restart(self, _):
+        """Stop the current game and restart it."""
+        self.game.restart()
+
     def do_add_player(self, name):
         """Add a player to the game. add_player <name>."""
         msg = self.game.add_player(name)
