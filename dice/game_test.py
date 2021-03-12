@@ -63,6 +63,7 @@ class TestGameClass(unittest.TestCase):
         self.assertEqual(res, exp)
 
     def test_add_player_when_game_active(self):
+        """Check for correct output when adding during active game."""
         the_game = game.Game()
         the_game.game_active = True
         res = the_game.add_player('test')

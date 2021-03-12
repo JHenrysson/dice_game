@@ -46,10 +46,6 @@ class Shell(cmd.Cmd):
         msg = self.game.add_player(name)
         print(msg)
 
-    def do_restart(self, _):
-        """Stop the current game and restart it."""
-        self.game.restart()
-
     def do_remove_player(self, name):
         """Remove a player from the game. remove_player <name>."""
         msg = self.game.remove_player(name)
@@ -124,9 +120,9 @@ class Shell(cmd.Cmd):
         else:
             print("You must start the game first with command start")
 
-    def sort_highscore(self, e):
+    def sort_highscore(self, obj):
         """Sort by highest score."""
-        return e.get_score()
+        return obj.get_score()
 
     def do_highscore(self, _):
         """Show players highscores."""
