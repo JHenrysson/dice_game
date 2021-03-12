@@ -188,13 +188,6 @@ Python <br>
 ### Authors
    Paul John Miller,  Xuan Tran, Joselyn Godoy <br>
 
-### Releases 
-
-Will add when tags are uploaded 
-<br>
-
-<br> 
- 
 
 ### License 
 
