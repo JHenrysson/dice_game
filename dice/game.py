@@ -173,5 +173,5 @@ class Game:
         return total  # Return value used in shell class to print msg
 
     def get_players(self):
-        """Get all players"""
+        """Get all players."""
         return self.players

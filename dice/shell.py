@@ -121,8 +121,9 @@ class Shell(cmd.Cmd):
         players = list(self.game.get_players().values())
         players.sort(key=self.sort_highscore, reverse=True)
 
-        for player in players:
-            print(player.get_name() + ': ' + str(player.get_score()))
+        for highscore_player in players:
+            print(highscore_player.get_name() + ': ' +
+                  str(highscore_player.get_score()))
 
     def do_exit(self, _):
         """Exit the game."""
