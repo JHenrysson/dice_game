@@ -53,24 +53,6 @@ class TestGameClass(unittest.TestCase):
         res = the_game.current_players[0]
         self.assertIsInstance(res, player.Player)
 
-    def test_game_restart_turn_score(self):
-        """Test case for turn score when game restart."""
-        the_game = game.Game()
-        the_game.turn.set_total(6)
-        the_game.restart()
-        self.assertEqual(the_game.turn.get_total(), 0)
-
-    def test_game_restart_total_score(self):
-        """Test case for total score when game restart."""
-        the_game = game.Game()
-        the_game.create_player('Test')
-        the_game.add_player('Test')
-        the_game.turn.set_total(6)
-        the_game.current_players[0].set_score(5)
-        the_game.restart()
-        res = the_game.current_players[0].get_score()
-        self.assertEqual(res, 0)
-
     def test_add_player_adds_correct_player(self):
         """Check values on object to ensure it is correct object."""
         the_game = game.Game()
@@ -218,6 +200,14 @@ class TestGameClass(unittest.TestCase):
         self.assertEqual(res, exp)
         res = the_game.update_player('Not a player', 'new name')
         exp = 'Player Not a player does not exist.'
+        self.assertEqual(res, exp)
+
+    def test_get_players(self):
+        """Check correct value is returned."""
+        the_game = game.Game()
+        the_game.players = {'test': 'test value'}
+        res = the_game.get_players()
+        exp = the_game.players
         self.assertEqual(res, exp)
 
     def test_toggle_active(self):
