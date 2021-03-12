@@ -38,6 +38,10 @@ class Shell(cmd.Cmd):
         msg = self.game.add_player(name)
         print(msg)
 
+    def do_restart(self, _):
+        """Stop the current game and restart it."""
+        self.game.restart()
+
     def do_remove_player(self, name):
         """Remove a player. remove_player <name>."""
         msg = self.game.remove_player(name)
