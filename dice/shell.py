@@ -11,7 +11,7 @@ class Shell(cmd.Cmd):
     """Shell class to run the game in command line."""
 
     intro = "Welcome to the game of PIG. Type help or ? to list commands."
-    prompt = "(PIG) "
+    prompt = "(Lobby) "
 
     def __init__(self):
         """Initialise the object."""
@@ -32,6 +32,14 @@ class Shell(cmd.Cmd):
         # Start the game if players were found.
         else:
             self.game.start()
+
+    def do_restart(self, _):
+        """Return the the lobby. With current players still active.
+
+        Use command start to start the game again.
+        """
+        msg = self.game.restart()
+        print(msg)
 
     def do_add_player(self, name):
         """Add a player to the game. add_player <name>."""
@@ -158,6 +166,9 @@ class Shell(cmd.Cmd):
 
         if self.game.game_active:
             self.prompt = self.set_prompt()
+
+        if command == 'restart':
+            self.prompt = '(Lobby) '
 
         if command == 'exit':
             return True

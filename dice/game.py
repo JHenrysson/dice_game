@@ -37,10 +37,20 @@ class Game:
         self.active_player = self.current_players[0]  # Set player 1 active
         self.turn.reset()  # Reset the turn score total
         for obj in self.current_players:
-            obj.reset_score()  # Reset the scores for players if game restarts
+            obj.reset_score()  # Reset the scores for players
+
+    def restart(self):
+        """Restart the game from the lobby."""
+        self.game_active = False
+        return "\nGame was restarted. Returning to Lobby\n"
 
     def add_player(self, name):
         """Add a player to the players array."""
+        if self.game_active is True:
+            msg = ("You cant do that when the game is active\n" +
+                   "Use command restart to return to the lobby")
+            return msg
+
         if len(self.current_players) == 2:
             msg = "You already have 2 players. Use command remove_player first"
         elif name in self.players:
@@ -68,10 +78,18 @@ class Game:
         """Remove a player from the game."""
         msg = f"{name} not found in player list."
 
-        for obj in self.current_players:
-            if obj.name == name:
-                self.current_players.remove(obj)
-                msg = f"{name} was removed from the game."
+        if self.game_active is True:
+            msg = ("You can't do that when the game is active\n" +
+                   "Use command restart to return to the lobby")
+        else:
+            for obj in self.current_players:
+                if obj.name == name:
+                    self.current_players.remove(obj)
+                    msg = f"{name} was removed from the game."
+                    break
+                if isinstance(obj, ai.AI) and name == 'AI':
+                    self.current_players.remove(obj)
+                    msg = "AI was removed from the game."
 
         return msg
 
@@ -82,7 +100,8 @@ class Game:
         if name in self.players:
             self.players.pop(name)
         else:
-            msg = 'Player not found.'
+            msg = ('Player not found. Player may not have been saved yet. ' +
+                   'You must complete at least 1 game.')
 
         return msg
 

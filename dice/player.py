@@ -40,5 +40,5 @@ class Player:
         """Check if new highscore and update if it is."""
         if self.highscore is None:
             self.highscore = score
-        elif self.highscore > score:
+        elif self.highscore < score:
             self.highscore = score

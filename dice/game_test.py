@@ -16,15 +16,34 @@ class TestGameClass(unittest.TestCase):
         exp = game.Game
         self.assertIsInstance(res, exp)
 
-    def test_game_start_ai_is_added(self):
-        """Check if ai object is added to players."""
+    def test_game_start(self):
+        """Check game start correctly sets game state."""
+        the_game = game.Game()
+        the_game.create_player('Test')
+        the_game.add_player('Test')
+        the_player = the_game.current_players[0]
+        the_player.scores = [1, 2, 3]
+        the_game.turn.total = 10
+        the_game.start()
+        ai_player = the_game.current_players[1]
+        player_score = the_player.get_score()
+        turn_total = the_game.turn.get_total()
+        active_player = the_game.active_player
+        self.assertTrue(the_game.game_active)
+        self.assertTrue(player_score == 0)
+        self.assertTrue(turn_total == 0)
+        self.assertEqual(active_player, the_player)
+        self.assertIsInstance(ai_player, ai.AI)
+
+    def test_restart(self):
+        """Check the game is restarted correctly."""
         the_game = game.Game()
         the_game.create_player('Test')
         the_game.add_player('Test')
         the_game.start()
-
-        res = the_game.current_players[1]
-        self.assertIsInstance(res, ai.AI)
+        the_game.restart()
+        res = the_game.game_active
+        self.assertFalse(res)
 
     def test_add_player_that_exists(self):
         """Check existing player added to current players correctly."""
@@ -41,6 +60,14 @@ class TestGameClass(unittest.TestCase):
         the_game.add_player('Test')
         res = the_game.current_players[0].get_name()
         exp = 'Test'
+        self.assertEqual(res, exp)
+
+    def test_add_player_when_game_active(self):
+        the_game = game.Game()
+        the_game.game_active = True
+        res = the_game.add_player('test')
+        exp = ("You cant do that when the game is active\n" +
+               "Use command restart to return to the lobby")
         self.assertEqual(res, exp)
 
     def test_add_player_that_doesnt_exist(self):
@@ -95,6 +122,26 @@ class TestGameClass(unittest.TestCase):
         res = len(the_game.current_players) == 0
         self.assertTrue(res)
 
+    def test_remove_ai_player(self):
+        """Check AI player can be removed."""
+        the_game = game.Game()
+        the_game.create_player('1')
+        the_game.add_player('1')
+        the_game.start()
+        the_game.restart()
+        the_game.remove_player('AI')
+        res = len(the_game.current_players)
+        self.assertTrue(res == 1)
+
+    def test_remove_player_when_game_active(self):
+        """Check for correct output when removing player during active game."""
+        the_game = game.Game()
+        the_game.game_active = True
+        res = the_game.remove_player('test')
+        exp = ("You can't do that when the game is active\n" +
+               "Use command restart to return to the lobby")
+        self.assertEqual(res, exp)
+
     def test_remove_player_output_success(self):
         """Check for correct output when player removed."""
         the_game = game.Game()
@@ -132,7 +179,8 @@ class TestGameClass(unittest.TestCase):
         the_game = game.Game()
         the_game.players = {}
         res = the_game.delete_player('player1')
-        exp = "Player not found."
+        exp = ("Player not found. Player may not have been saved yet. " +
+               "You must complete at least 1 game.")
         self.assertEqual(res, exp)
 
     def test_update_player(self):

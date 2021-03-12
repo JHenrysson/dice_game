@@ -37,6 +37,18 @@ class PlayerTest(unittest.TestCase):
         exp = 0
         self.assertEqual(res, exp)
 
+    def test_update_highscore(self):
+        """Check the players highscore is updated correctly."""
+        a_player = player.Player('test')
+        a_player.update_highscore(100)
+        res = a_player.highscore
+        exp = 100
+        self.assertEqual(res, exp)
+        a_player.update_highscore(110)
+        res = a_player.highscore
+        exp = 110
+        self.assertEqual(res, exp)
+
 
 if __name__ == '__main__':
     unittest.main()

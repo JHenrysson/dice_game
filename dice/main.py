@@ -1,4 +1,4 @@
-"""Welcome to PIG."""
+""" Running main.py."""
 
 import shell
 
