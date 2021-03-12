@@ -1,7 +1,4 @@
-"""
-Welcome to PIG
-
-"""
+"""Welcome to PIG."""
 
 import shell
 
