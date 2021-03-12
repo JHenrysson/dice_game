@@ -89,25 +89,26 @@ class TestGameClass(unittest.TestCase):
     def test_remove_player(self):
         """Check a player can be removed from current players."""
         the_game = game.Game()
-        the_game.current_players = ['player1', 'player2']
-        the_game.remove_player('player1')
-        res = 'player1' not in the_game.current_players
+        the_game.create_player('1')
+        the_game.add_player('1')
+        the_game.remove_player('1')
+        res = len(the_game.current_players) == 0
         self.assertTrue(res)
 
     def test_remove_player_output_success(self):
         """Check for correct output when player removed."""
         the_game = game.Game()
-        the_game.current_players = ['player1', 'player2']
-        res = the_game.remove_player('player1')
-        exp = "player1 was removed from the game."
+        the_game.create_player('1')
+        the_game.add_player('1')
+        res = the_game.remove_player('1')
+        exp = "1 was removed from the game."
         self.assertEqual(res, exp)
 
     def test_remove_player_output_fail(self):
         """Check output when player not found in list."""
         the_game = game.Game()
-        the_game.current_players = ['player1']
-        res = the_game.remove_player('player2')
-        exp = "player2 not found in player list."
+        res = the_game.remove_player('2')
+        exp = "2 not found in player list."
         self.assertEqual(res, exp)
 
     def test_delete_player(self):

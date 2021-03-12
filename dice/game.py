@@ -66,12 +66,12 @@ class Game:
 
     def remove_player(self, name):
         """Remove a player from the game."""
-        msg = f"{name} was removed from the game."
+        msg = f"{name} not found in player list."
 
-        if name in self.current_players:
-            self.current_players.remove(name)
-        else:
-            msg = f"{name} not found in player list."
+        for obj in self.current_players:
+            if obj.name == name:
+                self.current_players.remove(obj)
+                msg = f"{name} was removed from the game."
 
         return msg
 
