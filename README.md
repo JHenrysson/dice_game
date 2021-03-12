@@ -62,11 +62,11 @@ The first one to reach 100 wins the game
 
 Before starting a game, player has to create a name with this command:
 
-``create_name <player1_name>``
+``create_player <player1_name>``
 
 The next step is to register the name in to the game by command:
 
-``add_name <player1_name>``
+``add_player <player1_name>``
 
 After that the player can choose one of the option below:
 
@@ -76,9 +76,9 @@ The player want to play against the computer, there are 2 difficulty:
 
 Or, the player want to play against another player:
 
-``create_name <player2_name>``
+``create_player <player2_name>``
 then
-``add_name <player2_name>``
+``add_player <player2_name>``
 
 The player after doing those steps above, now can start a game by writing command:
 
@@ -115,10 +115,13 @@ If the player want to cheat, and get 100 procents chance to get 99 point, type t
 
 ``cheat``
 
-To delete player, this operation must be done before adding name to the game 
-and after creating the name:
+To delete player who is not in the game
 
-``delete_name <player_name>``
+``delete_player <player_name>``
+
+To remove player who is already registered in the game
+
+``remove_player <player_name>``
 
 To change name of player, type this command:
 
