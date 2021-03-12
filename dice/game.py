@@ -194,3 +194,10 @@ class Game:
     def get_players(self):
         """Get all players."""
         return self.players
+
+    def restart(self):
+        """Quit the current game and retart it."""
+        self.turn.reset()
+        for obj in self.current_players:
+            obj.reset_score()
+        print("Your current game has been restarted. ")
